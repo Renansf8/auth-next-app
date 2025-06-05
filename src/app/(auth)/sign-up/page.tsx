@@ -1,63 +1,129 @@
+"use client";
+
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Form,
+  FormField,
+  FormMessage,
+  FormItem,
+  FormLabel,
+  FormControl,
+} from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
 
+const schema = z.object({
+  firstName: z.string().min(1, { message: "Invalid first name" }),
+  lastName: z.string().min(1, { message: "Invalid last name" }),
+  email: z.string().email({ message: "Invalid email address" }),
+  password: z
+    .string()
+    .min(8, { message: "Password must be at least 8 characters long" }),
+});
+
+type FormData = z.infer<typeof schema>;
 export default function SignUp() {
+  const form = useForm<FormData>({
+    resolver: zodResolver(schema),
+    defaultValues: {
+      firstName: "",
+      lastName: "",
+      email: "",
+      password: "",
+    },
+  });
+
+  const handleSubmit = (data: FormData) => {
+    console.log(data);
+  };
+
   return (
     <Card className="mx-auto max-w-sm w-full">
       <CardHeader>
         <CardTitle>Create your account</CardTitle>
       </CardHeader>
       <CardContent>
-        <form>
-          <div className="flex flex-col gap-6">
-            <div className="grid gap-3">
-              <Label htmlFor="first-name">First Name</Label>
-              <Input id="first-name" type="text" placeholder="John" required />
-            </div>
-            <div className="grid gap-3">
-              <Label htmlFor="last-name">Last Name</Label>
-              <Input id="last-name" type="text" placeholder="Doe" required />
-            </div>
-            <div className="grid gap-3">
-              <Label htmlFor="email">Email</Label>
-              <Input
-                id="email"
-                type="email"
-                placeholder="m@example.com"
-                required
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(handleSubmit)}>
+            <div className="flex flex-col gap-6">
+              <FormField
+                control={form.control}
+                name="firstName"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>First Name</FormLabel>
+                    <FormControl>
+                      <Input placeholder="John" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
               />
-            </div>
-            <div className="grid gap-3">
-              <div className="flex items-center">
-                <Label htmlFor="password">Password</Label>
-                <a
-                  href="#"
-                  className="ml-auto inline-block text-sm underline-offset-4 hover:underline"
-                >
-                  Forgot your password?
-                </a>
+
+              <FormField
+                control={form.control}
+                name="lastName"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Last Name</FormLabel>
+                    <FormControl>
+                      <Input placeholder="Doe" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name="email"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Email</FormLabel>
+                    <FormControl>
+                      <Input placeholder="m@example.com" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name="password"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Password</FormLabel>
+                    <FormControl>
+                      <Input
+                        type="password"
+                        placeholder="********"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <div className="flex flex-col gap-3">
+                <Button type="submit" className="w-full">
+                  Create
+                </Button>
               </div>
-              <Input id="password" type="password" required />
             </div>
-            <div className="flex flex-col gap-3">
-              <Button type="submit" className="w-full">
-                Create
-              </Button>
-              <Button variant="outline" className="w-full">
-                Login with Google
-              </Button>
-            </div>
-          </div>
+          </form>
           <div className="mt-4 text-center text-sm">
             Already have an account?{" "}
             <Link href="sign-in" className="underline underline-offset-4">
               Sign in
             </Link>
           </div>
-        </form>
+        </Form>
       </CardContent>
     </Card>
   );
