@@ -13,8 +13,12 @@ import { FormItem, FormLabel } from "@/components/ui/form";
 import { FormControl } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
+import axios from "axios";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 import { z } from "zod";
 
 const schema = z.object({
@@ -25,6 +29,8 @@ const schema = z.object({
 type FormData = z.infer<typeof schema>;
 
 export default function SignIn() {
+  const [isLoading, setIsLoading] = useState(false);
+  const router = useRouter();
   const form = useForm<FormData>({
     resolver: zodResolver(schema),
     defaultValues: {
@@ -33,8 +39,17 @@ export default function SignIn() {
     },
   });
 
-  const handleSubmit = (data: FormData) => {
-    console.log(data);
+  const handleSubmit = async (data: FormData) => {
+    try {
+      setIsLoading(true);
+      await axios.post("/api/auth/sign-in", data);
+      router.push("/");
+    } catch (err) {
+      toast.error("Invalid credentials");
+      console.error(err);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -79,15 +94,15 @@ export default function SignIn() {
                     </a>
                   </div>
                   <FormControl>
-                    <Input placeholder="********" {...field} />
+                    <Input type="password" placeholder="********" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
             />
             <div className="flex flex-col gap-3">
-              <Button type="submit" className="w-full">
-                Login
+              <Button type="submit" className="w-full" disabled={isLoading}>
+                {isLoading ? "Logging in..." : "Login"}
               </Button>
               <Button type="button" variant="outline" className="w-full">
                 Login with Google
