@@ -1,4 +1,4 @@
-import { getAccessToken } from "@/lib/auth";
+import { auth } from "@/lib/auth";
 import { redirect } from "next/navigation";
 
 export default async function DashboardLayout({
@@ -6,9 +6,9 @@ export default async function DashboardLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const accessToken = await getAccessToken();
+  const user = await auth();
 
-  if (!accessToken) {
+  if (!user) {
     redirect("/sign-in");
   }
 
