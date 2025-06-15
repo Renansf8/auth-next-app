@@ -26,6 +26,7 @@ import {
 } from "@/components/ui/sidebar";
 import axios from "axios";
 import { useRouter } from "next/navigation";
+import { useAuth } from "@/contexts/AuthContext";
 
 export function NavUser({
   user,
@@ -44,6 +45,8 @@ export function NavUser({
     router.push("/sign-in");
   };
 
+  const { user: authUser } = useAuth();
+
   return (
     <SidebarMenu>
       <SidebarMenuItem>
@@ -58,9 +61,11 @@ export function NavUser({
                 <AvatarFallback className="rounded-lg">CN</AvatarFallback>
               </Avatar>
               <div className="grid flex-1 text-left text-sm leading-tight">
-                <span className="truncate font-medium">{user.name}</span>
+                <span className="truncate font-medium">
+                  {authUser.firstName} {authUser.lastName}
+                </span>
                 <span className="text-muted-foreground truncate text-xs">
-                  {user.email}
+                  {authUser.email}
                 </span>
               </div>
               <IconDotsVertical className="ml-auto size-4" />
@@ -81,7 +86,7 @@ export function NavUser({
                 <div className="grid flex-1 text-left text-sm leading-tight">
                   <span className="truncate font-medium">{user.name}</span>
                   <span className="text-muted-foreground truncate text-xs">
-                    {user.email}
+                    {authUser.email}
                   </span>
                 </div>
               </div>

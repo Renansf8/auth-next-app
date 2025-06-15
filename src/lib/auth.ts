@@ -16,6 +16,7 @@ export async function auth(): Promise<User | null> {
   }
 
   try {
+    await new Promise((resolve) => setTimeout(resolve, 3000));
     const { sub: userId } = verify(accessToken, env.jwtSecret) as JwtPayload;
 
     if (!userId) {
