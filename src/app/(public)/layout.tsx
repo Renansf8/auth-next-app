@@ -1,7 +1,7 @@
 import { getAccessToken } from "@/lib/auth";
 import { redirect } from "next/navigation";
 
-export default async function AuthLayout({
+export default async function PublicPagesLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
@@ -12,5 +12,5 @@ export default async function AuthLayout({
     redirect("/");
   }
 
-  return <div className="min-h-screen grid place-items-center">{children}</div>;
+  return children;
 }
