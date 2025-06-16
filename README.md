@@ -1,24 +1,106 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Auth App
+
+A modern authentication application built with Next.js 15, featuring a beautiful UI and robust authentication system.
+
+## Features
+
+- 🔐 Secure authentication system
+- 🎨 Modern UI with Tailwind CSS and Radix UI components
+- 📱 Responsive design
+- 🎯 Form validation with React Hook Form and Zod
+- 🗃️ Database integration with Prisma
+- 🎯 TypeScript for type safety
+
+## Tech Stack
+
+- **Framework:** Next.js 15
+- **Language:** TypeScript
+- **Styling:** Tailwind CSS
+- **UI Components:** Radix UI
+- **Database:** Prisma
+- **Authentication:** JWT (jsonwebtoken)
+- **Form Handling:** React Hook Form + Zod
+- **Data Fetching:** Axios
+- **State Management:** React Hooks
+
+## Prerequisites
+
+Before you begin, ensure you have the following installed:
+
+- Node.js (Latest LTS version recommended)
+- Yarn or npm
+- Git
 
 ## Getting Started
 
-First, run the development server:
+1. Clone the repository:
 
 ```bash
-npm run dev
+git clone https://github.com/yourusername/auth-app.git
+cd auth-app
+```
+
+2. Install dependencies:
+
+```bash
+yarn install
 # or
+npm install
+```
+
+3. Set up your environment variables:
+   Create a `.env` file in the root directory and add the necessary environment variables:
+
+```env
+DATABASE_URL="your_database_url"
+JWT_SECRET="your_jwt_secret"
+```
+
+4. Set up the database:
+
+```bash
+npx prisma generate
+npx prisma db push
+```
+
+5. Run the development server:
+
+```bash
 yarn dev
 # or
-pnpm dev
-# or
-bun dev
+npm run dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Available Scripts
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- `yarn dev` - Starts the development server
+- `yarn build` - Builds the app for production
+- `yarn start` - Runs the built app in production mode
+- `yarn lint` - Runs ESLint to check code quality
+
+## Project Structure
+
+```
+auth-app/
+├── src/              # Source files
+├── public/           # Static files
+├── prisma/          # Database schema and migrations
+├── components/      # Reusable components
+└── ...
+```
+
+## License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
+
+## Acknowledgments
+
+- [Next.js](https://nextjs.org)
+- [Tailwind CSS](https://tailwindcss.com)
+- [Radix UI](https://www.radix-ui.com)
+- [Prisma](https://www.prisma.io)
 
 ## Learn More
 
